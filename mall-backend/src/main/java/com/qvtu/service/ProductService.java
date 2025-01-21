@@ -12,4 +12,7 @@ public interface ProductService {
 
     // 更新商品
     void update(Product product);
+
+    // 删除商品
+    void delete(Integer id);
 }

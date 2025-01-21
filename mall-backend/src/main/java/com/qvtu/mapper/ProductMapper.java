@@ -1,10 +1,7 @@
 package com.qvtu.mapper;
 
 import com.qvtu.pojo.Product;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -26,4 +23,7 @@ public interface ProductMapper {
             "price = #{price}, description = #{description}, stock = #{stock}, " +
             "weight = #{weight}, keywords = #{keywords} WHERE id = #{id}")
     void update(Product product);
+
+    @Delete("DELETE FROM pms_product WHERE id = #{id}")
+    void delete(Integer id);
 }

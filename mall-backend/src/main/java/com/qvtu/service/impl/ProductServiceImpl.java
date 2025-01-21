@@ -55,4 +55,9 @@ public class ProductServiceImpl implements ProductService {
         product.setUpdateTime(LocalDateTime.now());
         productMapper.update(product);
     }
+
+    @Override
+    public void delete(Integer id) {
+        productMapper.delete(id);
+    }
 }

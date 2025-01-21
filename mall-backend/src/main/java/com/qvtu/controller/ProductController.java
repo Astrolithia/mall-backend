@@ -35,4 +35,10 @@ public class ProductController {
         productService.update(product);
         return Result.success();
     }
+
+    @DeleteMapping
+    public Result delete(@RequestParam Integer id) {
+        productService.delete(id);
+        return Result.success();
+    }
 }
