@@ -4,3 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/mall
     username: root
     password: Paramecium88.
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰命名和下划线命名的自动转换

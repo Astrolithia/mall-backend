@@ -13,7 +13,7 @@ public class ProductController {
     @GetMapping("/list")
     public Result<String> list() {
         // 验证token
-        
+
         return Result.success("所有的文章数据");
     }
 }

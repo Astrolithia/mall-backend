@@ -7,12 +7,13 @@ import com.qvtu.pojo.User;
 import com.qvtu.service.UserService;
 import com.qvtu.utils.JwtUtil;
 import com.qvtu.utils.Md5Util;
+import com.qvtu.utils.ThreadLocalUtil;
+
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,4 +64,66 @@ public class UserController {
 
         return Result.error("密码错误");
     }
+
+    @GetMapping("/userInfo")
+    public Result<User> getUserInfo() {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        if (map == null) {
+            return Result.error("用户未登录");
+        }
+        
+        String username = (String) map.get("username");
+        if (username == null) {
+            return Result.error("用户信息获取失败");
+        }
+        
+        User user = userService.findByUserName(username);
+        return Result.success(user);
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody User user) {
+        userService.update(user);
+        return Result.success();
+    }
+
+    @PatchMapping("/updateAvatar")
+    public Result updateAvatar(@RequestParam @URL String avatarUrl) {
+        userService.updateAvatar(avatarUrl);
+        return Result.success();
+    }
+
+    @PatchMapping("/updatePwd")
+    public Result updatePwd(@RequestBody Map<String, String> params) {
+        // 1. 校验参数
+        String oldPwd = params.get("old_pwd");
+        String newPwd = params.get("new_pwd");
+        String rePwd = params.get("re_pwd");
+
+        if (oldPwd == null || newPwd == null || rePwd == null) {
+            return Result.error("缺少必要的参数");
+        }
+
+        // 原密码是否正确
+        // 调用userService根据用户名拿到原密码，再和old_pwd比对
+        Map<String, Object> map = ThreadLocalUtil.get();
+        String username = (String) map.get("username");
+        User loginUser = userService.findByUserName(username);
+        if (loginUser == null) {
+            return Result.error("用户不存在");
+        }
+        if (!Md5Util.getMD5String(oldPwd).equals(loginUser.getPassword())) {
+            return Result.error("原密码错误");
+        }
+
+        // 2. 判断新密码和确认密码是否一致
+        if (!newPwd.equals(rePwd)) {
+            return Result.error("新密码和确认密码不一致");
+        }
+
+        // 3. 更新密码
+        userService.updatePwd(newPwd);
+        return Result.success();
+    }
 }
+
