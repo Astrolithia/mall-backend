@@ -1,19 +1,22 @@
 package com.qvtu.controller;
 
 
+import com.qvtu.pojo.Product;
 import com.qvtu.pojo.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.qvtu.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
 
-    @GetMapping("/list")
-    public Result<String> list() {
-        // 验证token
+    @Autowired
+    private ProductService productService;
 
-        return Result.success("所有的文章数据");
+    @PostMapping
+    public Result add(@RequestBody Product product) {
+        productService.add(product);
+        return Result.success();
     }
 }
