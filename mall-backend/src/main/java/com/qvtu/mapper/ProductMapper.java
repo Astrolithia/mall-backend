@@ -3,6 +3,9 @@ package com.qvtu.mapper;
 import com.qvtu.pojo.Product;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface ProductMapper {
@@ -13,4 +16,6 @@ public interface ProductMapper {
             "#{newStatus}, #{recommandStatus}, #{price}, #{description}, #{stock}, " +
             "#{weight}, #{keywords})")
     void add(Product product);
+
+    List<Product> list(Integer userId, Integer productCategoryId, Integer deleteStatus);
 }

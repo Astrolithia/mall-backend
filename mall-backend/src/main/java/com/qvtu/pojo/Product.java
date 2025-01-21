@@ -2,6 +2,7 @@ package com.qvtu.pojo;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.groups.Default;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -10,9 +11,12 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.hibernate.validator.constraints.URL;
+
 @Data
 public class Product {
     @NotNull(groups = Update.class)
+
     private Long id;
 
     private Long brandId;
@@ -20,8 +24,10 @@ public class Product {
     private Long productCategoryId;
 
     @NotEmpty(message = "商品名称不能为空")
+    @Pattern(regexp = "^\\S{1. 10}$")
     private String name;
 
+    @URL(message = "图片格式错误")
     private String pic;
 
     private String productSn;
