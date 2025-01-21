@@ -29,4 +29,10 @@ public class ProductController {
         PageBean<Product> pb = productService.list(pageNum, pageSize, productCategoryId, deleteStatus);
         return Result.success(pb);
     }
+
+    @PutMapping
+    public Result update(@RequestBody @Validated Product product) {
+        productService.update(product);
+        return Result.success();
+    }
 }

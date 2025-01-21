@@ -9,4 +9,7 @@ public interface ProductService {
 
     // 查询商品列表
     PageBean<Product> list(Integer pageNum, Integer pageSize, Integer productCategoryId, Integer deleteStatus);
+
+    // 更新商品
+    void update(Product product);
 }

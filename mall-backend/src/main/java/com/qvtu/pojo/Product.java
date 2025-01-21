@@ -24,7 +24,7 @@ public class Product {
     private Long productCategoryId;
 
     @NotEmpty(message = "商品名称不能为空")
-    @Pattern(regexp = "^\\S{1. 10}$")
+    @Pattern(regexp = "^\\S{1,10}$")
     private String name;
 
     @URL(message = "图片格式错误")

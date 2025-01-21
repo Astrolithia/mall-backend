@@ -4,6 +4,7 @@ import com.qvtu.pojo.Product;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -18,4 +19,11 @@ public interface ProductMapper {
     void add(Product product);
 
     List<Product> list(Integer userId, Integer productCategoryId, Integer deleteStatus);
+
+    @Update("UPDATE pms_product SET name = #{name}, pic = #{pic}, product_sn = #{productSn}, " +
+            "delete_status = #{deleteStatus}, publish_status = #{publishStatus}, " +
+            "new_status = #{newStatus}, recommand_status = #{recommandStatus}, " +
+            "price = #{price}, description = #{description}, stock = #{stock}, " +
+            "weight = #{weight}, keywords = #{keywords} WHERE id = #{id}")
+    void update(Product product);
 }

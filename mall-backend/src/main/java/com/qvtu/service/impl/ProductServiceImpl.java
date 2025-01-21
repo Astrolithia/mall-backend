@@ -48,4 +48,11 @@ public class ProductServiceImpl implements ProductService {
         pb.setItems(p.getResult());
         return pb;
     }
+
+    @Override
+    public void update(Product product) {
+        // 补充属性值
+        product.setUpdateTime(LocalDateTime.now());
+        productMapper.update(product);
+    }
 }
